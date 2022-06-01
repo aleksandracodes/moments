@@ -16,22 +16,27 @@ import {
 } from "react-bootstrap";
 import axios from "axios";
 
+// destructure the useState hook
 const SignUpForm = () => {
   const [signUpData, setSignUpData] = useState({
     username: "",
     password1: "",
     password2: "",
   });
+
+  // destructure signUpData to not use the dot notation trying to access their values
   const { username, password1, password2 } = signUpData;
 
+  // useState hook with an empty object, where we will store all the errors
   const [errors, setErrors] = useState({});
 
   const history = useHistory();
 
   const handleChange = (event) => {
+    // spread the previous signUpData so that we only need to update our relevant attribute
     setSignUpData({
       ...signUpData,
-      [event.target.name]: event.target.value,
+      [event.target.name]: event.target.value,  // create a key: value pair
     });
   };
 
@@ -109,6 +114,8 @@ const SignUpForm = () => {
             >
               Sign up
             </Button>
+
+            {/* Error when the passwords don't match */}
             {errors.non_field_errors?.map((message, idx) => (
               <Alert key={idx} variant="warning" className="mt-3">
                 {message}
