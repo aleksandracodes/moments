@@ -5,3 +5,8 @@ axios.defaults.baseURL = 'https://moments-drf-api-ah.herokuapp.com/'
 axios.defaults.headers.post['Content-Type'] = 'multipart/form-data'
 // avoid any CORS errors when sending cookies
 axios.defaults.withCredentials = true
+
+
+// create axios instances for response and request interceptors
+export const axiosReq = axios.create();
+export const axiosRes = axios.create();
