@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Navbar, Container, Nav } from "react-bootstrap";
 import logo from "../assets/logo.png";
 import styles from "../styles/NavBar.module.css";
@@ -14,6 +14,27 @@ const NavBar = () => {
   const currentUser = useCurrentUser();  // call custom useCurrentUser hook in  NavBar.js to be able to display appropriate icons
 
   const setCurrentUser = useSetCurrentUser();
+
+  // keep track of whether the user has clicked on the burger menu to expand it
+  // value false means that the menu will initially be collapsed
+  const [expanded, setExpanded] = useState(false);
+
+  // instantiate a ref variable that will hold a reference to the burger icon
+  const ref = useRef(null)
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      // Because we called the useRef hook, the Navbar.Toggle is saved in the ref variable’s current attribute
+      if (ref.current && !ref.current.contains(event.target)) { 
+        // if user has clicked away from the referenced button we'll call setExpanded with false, which will close our dropdown menu  
+        setExpanded(false)
+      }
+    }
+    document.addEventListener('mouseup', handleClickOutside)
+    return () => {
+      document.removeEventListener('mouseup', handleClickOutside)
+    }
+  }, [ref])
+
 
   const handleSignOut = async () => {
     try {
@@ -87,7 +108,7 @@ const NavBar = () => {
   );
 
   return (
-    <Navbar className={styles.NavBar} expand="md" fixed="top">
+    <Navbar expanded={expanded} className={styles.NavBar} expand="md" fixed="top">
       <Container>
         <NavLink to="/">
           <Navbar.Brand>
@@ -98,7 +119,13 @@ const NavBar = () => {
           {/* only show the  addPostIcon if the currentUser exists. */}
           {currentUser && addPostIcon}
 
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        {/* add onClick attribute which will allow us to toggle the menu 
+            using the expanded state when we click on the burger icon. */}
+        <Navbar.Toggle 
+          ref={ref} // allow to reference this DOM element and detect whether the user clicked inside or outside of it
+          onClick={() => setExpanded(!expanded)} 
+          aria-controls="basic-navbar-nav" 
+        />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ml-auto text-left">
             <NavLink
