@@ -5,7 +5,7 @@ import appStyles from "../../App.module.css";
 import Asset from "../../components/Asset";
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
 
-const PopularProfiles = () => {
+const PopularProfiles = ({ mobile }) => {
 
 // Before we can display the most followed profiles, we have to fetch them first.
 // But before we fetch them, we need the  useState hook to store them in the state.
@@ -38,19 +38,31 @@ const PopularProfiles = () => {
     }, [currentUser]);
 
     return (
-        <Container className={appStyles.Content}>
-          {popularProfiles.results.length ? (
-            <>
-              <p>Most followed profiles.</p>
-              {popularProfiles.results.map((profile) => (
+      <Container
+        className={`${appStyles.Content} ${
+          mobile && "d-lg-none text-center mb-3"
+        }`}
+      >
+        {popularProfiles.results.length ? (
+          <>
+            <p>Most followed profiles.</p>
+            {mobile ? (
+              <div className="d-flex justify-content-around">
+                {popularProfiles.results.slice(0, 4).map((profile) => (
+                  <p key={profile.id}>{profile.owner}</p>
+                ))}
+              </div>
+            ) : (
+              popularProfiles.results.map((profile) => (
                 <p key={profile.id}>{profile.owner}</p>
-              ))}
-            </>
-          ) : (
-            <Asset spinner />
-          )}
-        </Container>
-      );
-    };
-    
-    export default PopularProfiles;
+              ))
+            )}
+          </>
+        ) : (
+          <Asset spinner />
+        )}
+      </Container>
+    );
+  };
+  
+  export default PopularProfiles;
