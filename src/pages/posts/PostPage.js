@@ -60,8 +60,6 @@ function PostPage() {
             "Comments"
           ) : null}
           {comments.results.length ? (
-
-
             <InfiniteScroll
               children={comments.results.map((comment) => (
                 <Comment
@@ -76,19 +74,18 @@ function PostPage() {
               hasMore={!!comments.next}
               next={() => fetchMoreData(comments, setComments)}
             />
+          ) : currentUser ? (
+            <span>No comments yet, be the first to comment!</span>
+          ) : (
+            <span>No comments... yet</span>
+          )}
+        </Container>
+      </Col>
+      <Col lg={4} className="d-none d-lg-block p-0 p-lg-2">
+        Popular profiles for desktop
+      </Col>
+    </Row>
+  );
+}
 
-            ) : currentUser ? (
-              <span>No comments yet, be the first to comment!</span>
-            ) : (
-              <span>No comments... yet</span>
-            )}
-          </Container>
-        </Col>
-        <Col lg={4} className="d-none d-lg-block p-0 p-lg-2">
-          Popular profiles for desktop
-        </Col>
-      </Row>
-    );
-  }
-  
-  export default PostPage;
+export default PostPage;
