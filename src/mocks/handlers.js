@@ -1,7 +1,10 @@
-const baseURl = 'https://moments-drf-api-ah.herokuapp.com/'
+import { rest } from "msw";
+
+const baseURL = "https://moments-drf-api-ah.herokuapp.com/";
+
 export const handlers = [
-    rest.get(`${baseURL}dj-rest-auth/user/`, (req, res, ctx) => {
-        return res(
+  rest.get(`${baseURL}dj-rest-auth/user/`, (req, res, ctx) => {
+    return res(
             ctx.json({
                 pk: 6,
                 username: "testuser",
@@ -15,5 +18,5 @@ export const handlers = [
     }),
     rest.post(`${baseURL}dj-rest-auth/logout/`, (req, res, ctx) => {
         return res(ctx.status(200));
-    }),
-];
+      }),
+    ];
