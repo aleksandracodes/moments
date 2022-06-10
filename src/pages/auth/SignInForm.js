@@ -15,9 +15,11 @@ import styles from "../../styles/SignInUpForm.module.css";
 import btnStyles from "../../styles/Button.module.css";
 import appStyles from "../../App.module.css";
 import { useSetCurrentUser } from "../../contexts/CurrentUserContext";
+import { useRedirect } from "../../hooks/useRedirect";
 
 function SignInForm() {
   const setCurrentUser = useSetCurrentUser();  // call custom useSetCurrentUser hook to be able to update the current user data on successful login
+  useRedirect('loggedIn')
 
   // 1. destructure the useState hook with signInData and setSignInData
   const [signInData, setSignInData] = useState({
@@ -39,7 +41,7 @@ function SignInForm() {
     try {
       const { data } = await axios.post("/dj-rest-auth/login/", signInData); // create a try-catch block, we’ll use axios to post all the signInData to the /dj-rest-auth/login/ endpoint
       setCurrentUser(data.user);
-      history.push("/"); // redirect the user to the home page after successfully logging in
+      history.goBack();   // redirect user on successful sign in back rather than to the home page
     } catch (err) {
       setErrors(err.response?.data); // 10. handle errors
     }
