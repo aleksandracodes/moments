@@ -70,7 +70,6 @@ function PostCreateForm() {
           history.push(`/posts/${data.id}`)  // redirect our user to the page for their newly created post
 
       } catch(err) {
-        console.log(err)
         if (err.response?.status !== 401) {
             setErrors(err.response?.data)
         }

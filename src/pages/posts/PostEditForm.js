@@ -41,7 +41,6 @@ function PostEditForm() {
 
         is_owner ? setPostData({ title, content, image }) : history.push("/");  // only allow the post owner to access the edit post page in the first place
       } catch (err) {
-        console.log(err);
       }
     };
 
@@ -85,7 +84,6 @@ function PostEditForm() {
           history.push(`/posts/${id}`)  // use the id to redirect the user back to the post they just edited
 
       } catch(err) {
-        console.log(err)
         if (err.response?.status !== 401) {
             setErrors(err.response?.data)
         }

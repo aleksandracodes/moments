@@ -20,7 +20,7 @@ export const CurrentUserProvider = ({children}) => {
         const { data } = await axiosRes.get("dj-rest-auth/user/");  // make a request when the component mounts
         setCurrentUser(data);
       } catch (err) {
-        console.log(err);
+
       }
     };
   
